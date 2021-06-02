@@ -1,4 +1,4 @@
-window.addEventListener("load", () => {
+
   let canvasLineas = document.getElementById("lineas");
   let ctx = canvasLineas.getContext("2d");
 
@@ -6,18 +6,18 @@ window.addEventListener("load", () => {
     function dibujar(x, y, x1, y1, xcola, ycola) {
       ctx.beginPath();
       if (x1 == 0) {
-        ctx.strokeStyle = "white";
+        ctx.strokeStyle = "black";
       } else {
         ctx.strokeStyle = color;
       }
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 10;
       ctx.moveTo(x1, y1);
       ctx.lineTo(x, y);
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.strokeStyle = "white";
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 9;
       ctx.moveTo(x1, y1);
       ctx.lineTo(xcola, ycola);
       ctx.stroke();
@@ -26,6 +26,7 @@ window.addEventListener("load", () => {
     function sumar() {
         
       if (true) {
+        //vamos a hacer que i sea la velocidad
         i = i + 0.001;
         icola = i - Math.PI/2
         let x1 = x;
@@ -44,8 +45,8 @@ window.addEventListener("load", () => {
   }
 
   nuevaOrbita(0, 0,150, 150, 0, 100, 50, 10, "green");
-  nuevaOrbita(0, 0, 140, 180, 0, 200, 150, 4, "blue");
-  nuevaOrbita(0, 0, 100, 120, 0, 20, 25, 4, "red");
+  nuevaOrbita(0, 0, 300, 180, 0, 200, 20, 4, "blue");
+  //nuevaOrbita(0, 0, 100, 120, 0, 20, 25, 4, "red");
 
+module.exports = nuevaOrbita;
 
-});

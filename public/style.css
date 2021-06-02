@@ -1,0 +1,17 @@
+header{
+
+    padding: 10px;
+    border-bottom: 2px solid white;
+}
+button{
+    border-radius: 10px;
+}
+
+canvas{
+    background-color: black;
+}
+
+body{
+    justify-content: center;
+    
+}
