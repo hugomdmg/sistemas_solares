@@ -125,48 +125,6 @@ function mostrarSistemas() {
   let canvasLineas = document.getElementById("lineas");
   let ctx = canvasLineas.getContext("2d");
 
-  function nuevaOrbita(x, y, c1, c2, i, a, b, t, color) {
-    function dibujar(x, y, x1, y1, xcola, ycola) {
-      ctx.beginPath();
-      if (x1 == 0) {
-        ctx.strokeStyle = "black";
-      } else {
-        ctx.strokeStyle = color;
-      }
-      ctx.lineWidth = 10;
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x, y);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 9;
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(xcola, ycola);
-      ctx.stroke();
-    }
-
-    function sumar() {
-        
-      if (true) {
-        //vamos a hacer que i sea la velocidad
-        i = i + 0.001;
-        icola = i - Math.PI/2
-        let x1 = x;
-        let y1 = y;
-        x = Math.sin(i * Math.PI) * a + c1;
-        y = Math.cos(i * Math.PI) * b + c2;
-
-        xcola = Math.sin(icola * Math.PI) * a + c1;
-        ycola = Math.cos(icola * Math.PI) * b + c2;
-        dibujar(x, y, x1, y1, xcola, ycola);
-      }
-      
-      return i;
-    }
-    setInterval(sumar, t);
-  }
-
 
 function simulacion(){
     let simulacion = document.getElementById('simulacion').value;
@@ -183,8 +141,9 @@ function simulacion(){
          for(let i = 0; i<datos[0].planetas.length; i++){
              let periapsis = parseFloat(datos[0].planetas[i].apoapsis)
              let apoapsis = parseFloat(datos[0].planetas[i].periapsis)
+             let centro = Math.sqrt(Math.abs(apoapsis*apoapsis-periapsis*periapsis))
              let color = `${datos[0].planetas[i].color}`
-             nuevaOrbita(0, 0,400, 250, 0, periapsis*20, apoapsis*20, apoapsis*apoapsis, color);
+             nuevaOrbita(0, 0,400-centro*20, 250, 0, periapsis*20, apoapsis*20, apoapsis*apoapsis, color);
          }
       })
 

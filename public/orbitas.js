@@ -1,52 +1,47 @@
-
-  let canvasLineas = document.getElementById("lineas");
-  let ctx = canvasLineas.getContext("2d");
-
-  function nuevaOrbita(x, y, c1, c2, i, a, b, t, color) {
-    function dibujar(x, y, x1, y1, xcola, ycola) {
-      ctx.beginPath();
-      if (x1 == 0) {
-        ctx.strokeStyle = "black";
-      } else {
-        ctx.strokeStyle = color;
-      }
-      ctx.lineWidth = 10;
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x, y);
-      ctx.stroke();
-
-      ctx.beginPath();
+function nuevaOrbita(x, y, c1, c2, i, a, b, t, color) {
+  let xcola = 0;
+  let ycola = 0;
+  function dibujar(x, y, x1, y1, xcola, ycola, x1cola, y1cola) {
+    ctx.beginPath();
+    if (x1 == 0) {
       ctx.strokeStyle = "black";
-      ctx.lineWidth = 9;
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(xcola, ycola);
-      ctx.stroke();
+    } else {
+      ctx.strokeStyle = color;
     }
+    ctx.lineWidth = 3;
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x, y);
+    ctx.stroke();
 
-    function sumar() {
-        
-      if (true) {
-        //vamos a hacer que i sea la velocidad
-        i = i + 0.001;
-        icola = i - Math.PI/2
-        let x1 = x;
-        let y1 = y;
-        x = Math.sin(i * Math.PI) * a + c1;
-        y = Math.cos(i * Math.PI) * b + c2;
-
-        xcola = Math.sin(icola * Math.PI) * a + c1;
-        ycola = Math.cos(icola * Math.PI) * b + c2;
-        dibujar(x, y, x1, y1, xcola, ycola);
-      }
-      
-      return i;
-    }
-    setInterval(sumar, t);
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.moveTo(x1cola, y1cola);
+    ctx.lineTo(xcola, ycola);
+    ctx.stroke()
   }
 
-  nuevaOrbita(0, 0,150, 150, 0, 100, 50, 10, "green");
-  nuevaOrbita(0, 0, 300, 180, 0, 200, 20, 4, "blue");
-  //nuevaOrbita(0, 0, 100, 120, 0, 20, 25, 4, "red");
+  function sumar() {
+      
+    if (true) {
+      i = i + 0.001;
+      let x1 = x;
+      let y1 = y;
+      x = Math.sin(i * Math.PI) * a + c1;
+      y = Math.cos(i * Math.PI) * b + c2;
 
-module.exports = nuevaOrbita;
+      let x1cola = xcola;
+      let y1cola = ycola;
+
+      xcola = Math.sin(i * Math.PI-Math.PI/4) * a + c1;
+      ycola = Math.cos(i * Math.PI-Math.PI/4) * b + c2;
+
+
+      dibujar(x, y, x1, y1, xcola, ycola, x1cola, y1cola);
+    }
+    
+    return i;
+  }
+  setInterval(sumar, t);
+}
 
