@@ -54,7 +54,6 @@ router.post(`/entrar`, function (req, res) {
             datos[0].contrasena
           );
             if(coincidencia){
-                console.log(datos)
                 res.send({ estado: true, mensaje: "", contenido: datos });
             }else{
                 res.send({estado: false, mensaje: 'la contraseña es incorrecta'})

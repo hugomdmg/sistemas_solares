@@ -143,7 +143,7 @@ function simulacion(){
              let apoapsis = parseFloat(datos[0].planetas[i].periapsis)
              let centro = Math.sqrt(Math.abs(apoapsis*apoapsis-periapsis*periapsis))
              let color = `${datos[0].planetas[i].color}`
-             let periodo = Math.sqrt(apoapsis*apoapsis*apoapsis)*2*Math.PI
+             let periodo = Math.pow((apoapsis+periapsis)/2, 3/2)*2*Math.PI
              nuevaOrbita(0, 0,400-centro*10, 250, 0, periapsis*10, apoapsis*10, periodo, color);
          }
       })
