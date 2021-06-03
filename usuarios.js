@@ -14,7 +14,7 @@ router.post("/registrar", function (req, res) {
         res.send({ error: true, mensaje: err });
       } else {
         if (datos.length !== 0) {
-          res.send({ error: false, mensaje: "ya existe", contenido: datos });
+          res.send({ error: false, mensaje: "el usuario ya existe, prueba con otro nombre", contenido: datos });
         } else {
           db.collection("usuarios").insertOne(
             {

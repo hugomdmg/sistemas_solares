@@ -89,11 +89,16 @@ function mostrarSistemas() {
       return res.json();
     })
     .then(function (datos) {
+      let parrafoplanetas;
       for (let i = 0; i < datos.length; i++) {
+        parrafoplanetas = ''
+        for(let j = 0; j<datos[i].planetas.length; j++){
+          parrafoplanetas += `${datos[i].planetas[j].nombre}, `
+        }
         parrafo += `
             <td>
                 <tr><div>Sistema: ${datos[i].sistema}</div></tr>
-                <tr><div>Planetas: </tr>
+                <tr><div>Planetas: ${parrafoplanetas}</tr>
                 <tr><button onclick="eliminar('${datos[i].sistema}')">eliminar</button></tr>
                 <tr><button onclick="mostrarAnadirPlanetas()">añadir planetas</button></tr>
             </td>

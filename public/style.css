@@ -6,6 +6,11 @@ header{
 button{
     border-radius: 10px;
 }
+div{
+    padding:5px;
+}
+
+
 
 canvas{
     background-color: black;
@@ -13,6 +18,8 @@ canvas{
 
 body{
     justify-content: center;
-    
+    background: url("fondo.jpg") no-repeat fixed center;
+    background-size: 100% 100%;
+    color: white;
 }
 
