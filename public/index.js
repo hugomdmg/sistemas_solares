@@ -32,15 +32,17 @@ function anadir() {
 function mostrarAnadirPlanetas() {
     document.getElementById("anadirplaneta").innerHTML = `
   <div id="parrafo">
-    <div>
+    <p>Introduzca los datos del planeta:</p>
+    <table>
         <td>
         <tr><div>Nombre sistema: </div><input type="text" id="sistema"/></tr>
         <tr><div>Nombre planeta: </div><input type="text" id="planeta"/></tr>
         <tr><div>apoapsis: </div><input type="text" id="apoapsis"/></tr>
         <tr><div>periapsis: </div><input type="text" id="periapsis"/></tr>
+        <tr><div>color: </div><input type="text" id="color"/></tr>
         <button type = 'text' onclick= 'anadirPlanetas()'>añadir planeta</button>
         </td>
-    </div>
+    </table>
     <div id="mensaje"></div>
   </div>
     `;
@@ -52,6 +54,7 @@ function anadirPlanetas() {
         nombre: document.getElementById('planeta').value,
         apoapsis: document.getElementById('apoapsis').value,
         periapsis: document.getElementById('periapsis').value,
+        color: document.getElementById('color').value,
     }
   fetch('/sistemas/guardarplaneta', {
     method: "PUT",
@@ -91,9 +94,8 @@ function mostrarSistemas() {
             <td>
                 <tr><div>Sistema: ${datos[i].sistema}</div></tr>
                 <tr><div>Planetas: </tr>
-                <button onclick="eliminar('${datos[i].sistema}')">eliminar</button>
-                <button onclick="mostrarAnadirPlanetas()">añadir planetas</button>
-
+                <tr><button onclick="eliminar('${datos[i].sistema}')">eliminar</button></tr>
+                <tr><button onclick="mostrarAnadirPlanetas()">añadir planetas</button></tr>
             </td>
             `;
       }
@@ -101,7 +103,7 @@ function mostrarSistemas() {
         "parrafo"
       ).innerHTML = `<div id='parrafo'>
                     <table>${parrafo}</table>
-                    <tr><div>Nombre sistema: </div><input type="text" id="simulacion"/></tr>
+                    <div>Nombre sistema: </div><input type="text" id="simulacion"/>
                     <button type = 'text' onclick= 'simulacion()'>ver simulación</button>
                     <div id='anadirplaneta'></div>
                     </div>
@@ -176,13 +178,77 @@ function simulacion(){
          for(let i = 0; i<datos[0].planetas.length; i++){
              let periapsis = parseFloat(datos[0].planetas[i].apoapsis)
              let apoapsis = parseFloat(datos[0].planetas[i].periapsis)
-             nuevaOrbita(0, 0,400, 250, 0, periapsis*20, apoapsis*20, apoapsis*apoapsis, "green");
+             let color = `${datos[0].planetas[i].color}`
+             nuevaOrbita(0, 0,400, 250, 0, periapsis*20, apoapsis*20, apoapsis*apoapsis, color);
          }
       })
 
 }
 
+function registrar(){
+  let usuario = document.getElementById('usuario').value;
+  let contrasena = document.getElementById('contrasena').value;
+  console.log(contrasena)
+  fetch('/usuarios/registrar',  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ usuario: usuario, contrasena: contrasena }),
+  } ).then(function(res){
+    return res.json();
+  }).then(function(datos){
+    console.log(datos)
+    if(!datos.error){
+      document.getElementById('mensajes').innerHTML = `
+      <p id='mensajes'>${datos.mensaje}</p>
+      `
+      setTimeout(() => {
+        document.getElementById('mensajes').innerHTML = `
+      <p id='mensajes'></p>
+      `
+      }, 2000);
+    }else{
+      document.getElementById('mensajes').innerHTML = `<p>ha habido un problema de conexión, vuelva a intentarlo</p>`
+      
+    }
+  })
+  
+}
 
+function entrar(){
+  let usuario = document.getElementById('usuario').value;
+  let contrasena = document.getElementById('contrasena').value;
+  fetch('/usuarios/entrar',  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ usuario: usuario, contrasena: contrasena }),
+  } ).then(function(res){
+    return res.json();
+  }).then(function(datos){
+    console.log(datos)
+    if(datos.estado){
+      document.getElementById('cabecera').innerHTML = `
+      <header>
+        <button onclick="mostrarAnadir()"><h3>Añadir sistema</h3></button>
+        <button onclick="mostrarSistemas()"><h3>Ver sistemas</h3></button>
+        <button onclick="mostrarSimulador()"><h3>Simulador tiro</h3></button>
+      </header>
+      `
+    }else{
+      document.getElementById('mensajes').innerHTML = `
+      <p id='mensajes'>${datos.mensaje}</p>
+      `
+      setTimeout(() => {
+        document.getElementById('mensajes').innerHTML = `
+      <p id='mensajes'></p>
+      `
+      }, 2000);
+    }
+  })
+}
+  
 
     
-

@@ -9,12 +9,15 @@
 
 </head>
 <body>
-    <header>
-        <button onclick="mostrarAnadir()"><h3>Añadir sistema</h3></button>
-        <button><h3><a href="./orbitas.html">Ver simulador</a></h3></button>
-        <button onclick="mostrarSistemas()"><h3>Ver sistema</h3></button>
-        <button onclick="mostrarSimulador()"><h3>Simulador tiro</h3></button>
-    </header>
+    <div id="cabecera">
+        <table>
+            <tr><div>Usuario: </div><input type="text" id="usuario"/></tr>
+            <tr><div>Contraseña: </div><input type="text" id="contrasena"/></tr>
+        </table>
+            <button type = 'text' onclick= 'entrar()'>entrar</button>
+            <button type = 'text' onclick= 'registrar()'>registrar</button>
+    </div>
+    <div id="mensajes"></div>
     <div id="parrafo"></div>
     <canvas id="lineas" width="800px" height="500px" style="border: 2px solid grey"></canvas>
     <script src="index.js"></script>
