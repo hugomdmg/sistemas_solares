@@ -30,7 +30,7 @@ function anadir() {
 }
 
 function mostrarAnadirPlanetas() {
-    document.getElementById("anadirplaneta").innerHTML = `
+  document.getElementById("anadirplaneta").innerHTML = `
   <div id="parrafo">
     <p>Introduzca los datos del planeta:</p>
     <table>
@@ -49,20 +49,20 @@ function mostrarAnadirPlanetas() {
 }
 
 function anadirPlanetas() {
-    let sistema = document.getElementById('sistema').value;
-    let planeta = {
-        nombre: document.getElementById('planeta').value,
-        apoapsis: document.getElementById('apoapsis').value,
-        periapsis: document.getElementById('periapsis').value,
-        color: document.getElementById('color').value,
-    }
-  fetch('/sistemas/guardarplaneta', {
+  let sistema = document.getElementById("sistema").value;
+  let planeta = {
+    nombre: document.getElementById("planeta").value,
+    apoapsis: document.getElementById("apoapsis").value,
+    periapsis: document.getElementById("periapsis").value,
+    color: document.getElementById("color").value,
+  };
+  fetch("/sistemas/guardarplaneta", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({sistema: sistema, planeta}),
-  } );
+    body: JSON.stringify({ sistema: sistema, planeta }),
+  });
 }
 
 function eliminar(i) {
@@ -82,7 +82,7 @@ function eliminar(i) {
 }
 
 function mostrarSistemas() {
-  let id = '';
+  let id = "";
   let parrafo = "";
   fetch("/sistemas/mostrar")
     .then(function (res) {
@@ -91,9 +91,9 @@ function mostrarSistemas() {
     .then(function (datos) {
       let parrafoplanetas;
       for (let i = 0; i < datos.length; i++) {
-        parrafoplanetas = ''
-        for(let j = 0; j<datos[i].planetas.length; j++){
-          parrafoplanetas += `${datos[i].planetas[j].nombre}, `
+        parrafoplanetas = "";
+        for (let j = 0; j < datos[i].planetas.length; j++) {
+          parrafoplanetas += `${datos[i].planetas[j].nombre}, `;
         }
         parrafo += `
             <td>
@@ -104,9 +104,7 @@ function mostrarSistemas() {
             </td>
             `;
       }
-      document.getElementById(
-        "parrafo"
-      ).innerHTML = `<div id='parrafo'>
+      document.getElementById("parrafo").innerHTML = `<div id='parrafo'>
                     <table>${parrafo}</table>
                     <div>Nombre sistema: </div><input type="text" id="simulacion"/>
                     <button type = 'text' onclick= 'simulacion()'>ver simulación</button>
@@ -116,104 +114,113 @@ function mostrarSistemas() {
     });
 }
 
-
-
-
 //--------------------------
 
-      
-  let canvasLineas = document.getElementById("lineas");
-  let ctx = canvasLineas.getContext("2d");
+let canvasLineas = document.getElementById("lineas");
+let ctx = canvasLineas.getContext("2d");
 
-
-function simulacion(){
-    let simulacion = document.getElementById('simulacion').value;
-    fetch(`/sistemas/mostrar/simulacion`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ sistema: simulacion }),
-      } ).then(function(res){
-          return res.json();
-      }).then(function(datos){
-          console.log(datos)
-         for(let i = 0; i<datos[0].planetas.length; i++){
-             let periapsis = parseFloat(datos[0].planetas[i].apoapsis)
-             let apoapsis = parseFloat(datos[0].planetas[i].periapsis)
-             let centro = Math.sqrt(Math.abs(apoapsis*apoapsis-periapsis*periapsis))
-             let color = `${datos[0].planetas[i].color}`
-             let periodo = Math.pow((apoapsis+periapsis)/2, 3/2)*2*Math.PI
-             nuevaOrbita(0, 0,400-centro*10, 250, 0, periapsis*10, apoapsis*10, periodo, color);
-         }
-      })
-
-}
-
-function registrar(){
-  let usuario = document.getElementById('usuario').value;
-  let contrasena = document.getElementById('contrasena').value;
-  console.log(contrasena)
-  fetch('/usuarios/registrar',  {
+function simulacion() {
+  let simulacion = document.getElementById("simulacion").value;
+  fetch(`/sistemas/mostrar/simulacion`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ usuario: usuario, contrasena: contrasena }),
-  } ).then(function(res){
-    return res.json();
-  }).then(function(datos){
-    console.log(datos)
-    if(!datos.error){
-      document.getElementById('mensajes').innerHTML = `
-      <p id='mensajes'>${datos.mensaje}</p>
-      `
-      setTimeout(() => {
-        document.getElementById('mensajes').innerHTML = `
-      <p id='mensajes'></p>
-      `
-      }, 2000);
-    }else{
-      document.getElementById('mensajes').innerHTML = `<p>ha habido un problema de conexión, vuelva a intentarlo</p>`
-      
-    }
+    body: JSON.stringify({ sistema: simulacion }),
   })
-  
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (datos) {
+      console.log(datos);
+      for (let i = 0; i < datos[0].planetas.length; i++) {
+        let periapsis = parseFloat(datos[0].planetas[i].apoapsis);
+        let apoapsis = parseFloat(datos[0].planetas[i].periapsis);
+        let centro = Math.sqrt(
+          Math.abs(apoapsis * apoapsis - periapsis * periapsis)
+        );
+        let color = `${datos[0].planetas[i].color}`;
+        let periodo = Math.pow((apoapsis + periapsis) / 2, 3 / 2) * 2 * Math.PI;
+        nuevaOrbita(
+          0,
+          0,
+          400 - centro * 10,
+          250,
+          0,
+          periapsis * 10,
+          apoapsis * 10,
+          periodo,
+          color
+        );
+      }
+    });
 }
 
-function entrar(){
-  let usuario = document.getElementById('usuario').value;
-  let contrasena = document.getElementById('contrasena').value;
-  fetch('/usuarios/entrar',  {
+function registrar() {
+  let usuario = document.getElementById("usuario").value;
+  let contrasena = document.getElementById("contrasena").value;
+  console.log(contrasena);
+  fetch("/usuarios/registrar", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ usuario: usuario, contrasena: contrasena }),
-  } ).then(function(res){
-    return res.json();
-  }).then(function(datos){
-    console.log(datos)
-    if(datos.estado){
-      document.getElementById('cabecera').innerHTML = `
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (datos) {
+      console.log(datos);
+      if (!datos.error) {
+        document.getElementById("mensajes").innerHTML = `
+      <p id='mensajes'>${datos.mensaje}</p>
+      `;
+        setTimeout(() => {
+          document.getElementById("mensajes").innerHTML = `
+      <p id='mensajes'></p>
+      `;
+        }, 2000);
+      } else {
+        document.getElementById(
+          "mensajes"
+        ).innerHTML = `<p>ha habido un problema de conexión, vuelva a intentarlo</p>`;
+      }
+    });
+}
+
+function entrar() {
+  let usuario = document.getElementById("usuario").value;
+  let contrasena = document.getElementById("contrasena").value;
+  fetch("/usuarios/entrar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ usuario: usuario, contrasena: contrasena }),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (datos) {
+      console.log(datos);
+      if (datos.estado) {
+        document.getElementById("cabecera").innerHTML = `
       <header>
         <button onclick="mostrarAnadir()"><h3>Añadir sistema</h3></button>
         <button onclick="mostrarSistemas()"><h3>Ver sistemas</h3></button>
         <button onclick="mostrarSimulador()"><h3><a href="lissajous.html">Simulador ondas</a></h3></button>
       </header>
-      `
-    }else{
-      document.getElementById('mensajes').innerHTML = `
+      `;
+      } else {
+        document.getElementById("mensajes").innerHTML = `
       <p id='mensajes'>${datos.mensaje}</p>
-      `
-      setTimeout(() => {
-        document.getElementById('mensajes').innerHTML = `
+      `;
+        setTimeout(() => {
+          document.getElementById("mensajes").innerHTML = `
       <p id='mensajes'></p>
-      `
-      }, 2000);
-    }
-  })
+      `;
+        }, 2000);
+      }
+    });
 }
-  
-
-    
