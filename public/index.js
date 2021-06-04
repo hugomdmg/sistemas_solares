@@ -43,7 +43,7 @@ function mostrarAnadirPlanetas() {
         <button type = 'text' onclick= 'anadirPlanetas()'>añadir planeta</button>
         </td>
     </table>
-    <div id="mensaje"></div>
+    <div id="mensaje"></div
   </div>
     `;
 }
@@ -199,7 +199,7 @@ function entrar(){
       <header>
         <button onclick="mostrarAnadir()"><h3>Añadir sistema</h3></button>
         <button onclick="mostrarSistemas()"><h3>Ver sistemas</h3></button>
-        <button onclick="mostrarSimulador()"><h3>Simulador tiro</h3></button>
+        <button onclick="mostrarSimulador()"><h3><a href="lissajous.html">Simulador ondas</a></h3></button>
       </header>
       `
     }else{
